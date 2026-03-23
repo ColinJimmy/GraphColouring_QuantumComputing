@@ -213,3 +213,68 @@ This project demonstrates quantum algorithm design principles applicable to vari
 **Project Status**: Complete and Functional
 **Last Updated**: 2024
 **Quantum Framework**: Qiskit 0.34.2+
+
+
+
+
+
+============================================================
+QUANTUM GRAPH COLORING RESULTS
+============================================================
+Graph: 5 vertices, 7 edges
+Colors attempted: 3
+Total shots: 1024
+Valid colorings found: 6
+
+Best coloring found: (2, 1, 0, 2, 1)
+Colors used: 3
+
+All valid colorings (count):
+  (0, 1, 2, 0, 1): 4 times
+  (0, 2, 1, 0, 2): 10 times
+  (1, 0, 2, 1, 0): 4 times
+  (1, 2, 0, 1, 2): 2 times
+  (2, 0, 1, 2, 0): 2 times
+  (2, 1, 0, 2, 1): 3 times
+============================================================
+
+
+Explanation of the output
+
+Graph: 5 vertices, 7 edges
+The problem graph has 5 nodes (numbered 0..4). An edge means those two nodes must not share the same color.
+
+Colors attempted: 3
+The solver tries to color the graph using at most 3 distinct colors (labeled 0, 1, 2).
+
+Total shots: 1024
+Number of times the quantum circuit was sampled. Each shot produces one candidate coloring.
+
+Valid colorings found: 6
+Number of distinct valid colorings (no edge has both endpoints with the same color) that appeared across all shots.
+
+Best coloring found: (2, 1, 0, 2, 1)
+A single valid assignment chosen by the solver as “best.” Each position is the color for that vertex:
+
+Vertex 0 → color 2
+Vertex 1 → color 1
+Vertex 2 → color 0
+Vertex 3 → color 2
+Vertex 4 → color 1
+
+“Best” usually means lowest objective/energy; if multiple have the same score, code may break ties by probability or a fixed rule.
+Colors used: 3
+How many distinct colors appear in the best assignment.
+
+All valid colorings (count):
+Lists every distinct valid coloring observed and how many times it appeared among the shots. The counts may not sum to Total shots because invalid colorings are omitted.
+Example: (0, 2, 1, 0, 2): 10 times means that exact assignment was sampled 10 times and passes all edge constraints.
+
+How the quantum graph coloring works (simple)
+
+Goal: Assign one of k colors to each vertex so that no edge connects two vertices with the same color.
+Encoding: Each vertex’s color is encoded into qubits/bits. A cost function penalizes color clashes on edges and optionally extra colors.
+Circuit: A quantum algorithm (e.g., QAOA) prepares a distribution that concentrates probability on low-cost (valid) colorings.
+Sampling: Run the circuit many times (shots) to get candidate colorings.
+Post-process: Translate bitstrings to color tuples, filter valid ones, count frequencies, pick a “best” according to the objective and tie-break rules.
+

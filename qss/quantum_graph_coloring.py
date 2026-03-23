@@ -1,5 +1,10 @@
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister, transpile
-from qiskit_aer import AerSimulator
+try:
+    # Newer Aer layout.
+    from qiskit_aer import AerSimulator
+except ImportError:
+    # Legacy layout used by qiskit-aer 0.10.x on this project stack.
+    from qiskit.providers.aer import AerSimulator
 from itertools import combinations
 import numpy as np
 
